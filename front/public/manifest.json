@@ -1,0 +1,14 @@
+{
+  "name": "codeme",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "codeme",
+  "start_url": "/",
+  "theme_color": "#07090e",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "256x256"
+    }
+  ]
+}

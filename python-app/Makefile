@@ -1,0 +1,3 @@
+proto:
+	rm -rf ./pb && mkdir -p ./pb
+	python -m grpc_tools.protoc -I./protos --python_out=./pb --pyi_out=./pb --grpc_python_out=./pb ./protos/*.proto

@@ -1,0 +1,30 @@
+
+syntax = "proto3";
+
+package pb;
+
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+message DirRes{
+    string id   = 1;
+    string name  = 2;
+    optional string content = 3;
+    optional string parentId  = 4;
+    google.protobuf.Timestamp createdAt = 5;
+    google.protobuf.Timestamp updatedAt = 6;
+ }
+
+message CreateDirReq{
+    string name  = 1;
+    optional string content = 2;
+    optional string parentId  = 3;
+}
+
+
+service DirService{
+    rpc Create(CreateDirReq) returns ( DirRes);
+    rpc GetAll(Empty) returns (stream DirRes);
+    rpc GetById(GenericReq) returns (DirRes);
+ }

@@ -1,0 +1,86 @@
+version: "3.9"
+services:
+  front:
+    image: ${FRONT_IMAGE}
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "${FRONT_PORT}:${FRONT_PORT}"
+    environment:
+      - PORT=${FRONT_PORT}
+    env_file:
+      - .env
+    volumes:
+      - ./front:/app
+      - ./protos:/app/protos
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - codeme-net
+
+  rust-app:
+    image: ${RUST_APP_IMAGE}
+    build:
+      context: .
+      dockerfile: ./rust-app/Dockerfile
+      target: development
+    hostname: ${RUST_APP_HOST}
+    ports:
+      - "${RUST_APP_PORT}:${RUST_APP_PORT}"
+    environment:
+      - PORT=${RUST_APP_PORT}
+    env_file:
+      - .env
+    volumes:
+      - ./rust-app:/app
+      - ./protos:/app/protos
+
+    networks:
+      - codeme-net
+    depends_on:
+      - pg-db
+
+  python-app:
+    image: ${PYTHON_APP_IMAGE}
+    build:
+      context: ./python-app
+      dockerfile: Dockerfile
+      target: development
+    hostname: ${PYTHON_APP_HOST}
+    ports:
+      - "${PYTHON_APP_PORT}:${PYTHON_APP_PORT}"
+    environment:
+      - PORT=${PYTHON_APP_PORT}
+    env_file:
+      - .env
+    volumes:
+      - ./python-app:/app
+      - ./protos:/app/protos
+    networks:
+      - codeme-net
+    depends_on:
+      - pg-db
+
+  pg-db:
+    image: ${DB_IMAGE}
+    hostname: ${DB_HOST}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    env_file:
+      - .env
+    volumes:
+      - pg-db:/var/lib/postgresql/data
+    networks:
+      - codeme-net
+networks:
+  codeme-net:
+    driver: bridge
+volumes:
+  pg-db:
+    driver: local

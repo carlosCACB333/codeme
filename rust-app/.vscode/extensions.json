@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "dustypomerleau.rust-syntax",
+        "tamasfe.even-better-toml",
+        "1yib.rust-bundle",
+        "rust-lang.rust-analyzer",
+        "mtxr.sqltools",
+        "zxh404.vscode-proto3"
+    ]
+}

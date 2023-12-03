@@ -1,0 +1,8 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+
+service BenchMarkService {
+    rpc ExecuteBenchMark (GenericReq) returns (GenericRes) {}
+}
