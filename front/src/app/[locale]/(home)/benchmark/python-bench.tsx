@@ -1,10 +1,10 @@
-import { grpcPythonExecuteBench } from "@/grpc/benchmark";
+import { grpcExecuteBench } from "@/grpc/python";
 
 interface Props {
   count: number;
 }
 export const PythonBench = async ({ count }: Props) => {
-  const { data } = await grpcPythonExecuteBench(count.toString());
+  const { data } = await grpcExecuteBench(count);
 
   return (
     <div>

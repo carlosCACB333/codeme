@@ -28,6 +28,8 @@ services:
       - PORT=${RUST_APP_PORT}
     env_file:
       - .env
+    volumes:
+      - /run/docker.sock:/var/run/docker.sock
 
     networks:
       - codeme-net

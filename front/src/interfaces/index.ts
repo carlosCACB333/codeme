@@ -26,9 +26,11 @@ export interface SearchItem {
   };
 }
 
+type Status = "success" | "error";
+
 export interface Response<T> {
   data?: T;
-  status: number;
+  status: Status;
   message: string;
   [key: string]: any;
 }

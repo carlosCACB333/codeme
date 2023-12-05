@@ -5,9 +5,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     tonic_build::configure()
         .out_dir("src/pb")
         .build_client(false)
-        .file_descriptor_set_path(original_out_dir.join("directory_descriptor.bin"))
+        .file_descriptor_set_path(original_out_dir.join("common_descriptor.bin"))
         .compile(
-            &["protos/directory.proto", "protos/benchmark.proto"],
+            &[
+                "protos/benchmark.proto",
+                "protos/common.proto",
+                "protos/user.proto",
+                "protos/auth.proto",
+                "protos/docker.proto",
+            ],
             &["protos/"],
         )?;
     Ok(())

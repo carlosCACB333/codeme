@@ -1,2 +1,3 @@
+pub mod auth;
 pub mod brenchmark;
-pub mod directory;
+pub mod docker;

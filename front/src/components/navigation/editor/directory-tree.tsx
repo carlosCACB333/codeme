@@ -5,11 +5,11 @@ import {
   FolderIcon,
 } from "@/components/assets/icons";
 import { DirectoryTree as D } from "@/data/directory-tree";
-import { useDirectory } from "@/hooks";
 import { useRouter } from "@/utils/navigation";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 export const DirectoryTree = ({
   directory,
@@ -18,28 +18,11 @@ export const DirectoryTree = ({
   directory: D;
   isLevel0?: boolean;
 }) => {
-  const updateDirectory = useDirectory((state) => state.updateDirectory);
-  const setActiveDir = useDirectory((state) => state.setActiveDirectory);
-  const addActiveFile = useDirectory((state) => state.addActiveFile);
-  const setActiveFile = useDirectory((state) => state.setActiveFile);
-  const activeDir = useDirectory((state) => state.activeDirectory);
   const { push } = useRouter();
   const { project } = useParams();
+  const [active, setActive] = useState(false);
 
   const isFile = directory.type === "file";
-  const toggleOpen = () => {
-    setActiveDir(directory);
-    if (isFile) {
-      addActiveFile(directory);
-      setActiveFile(directory);
-      push(`/editor/${project}/${directory.id}` as any);
-    } else {
-      updateDirectory({
-        ...directory,
-        expanded: !directory.expanded,
-      });
-    }
-  };
 
   return (
     <div
@@ -48,10 +31,13 @@ export const DirectoryTree = ({
       })}
     >
       <div
-        className={clsx("flex hover:opacity-70 cursor-pointer", {
-          "text-primary": activeDir?.id === directory.id,
-        })}
-        onClick={toggleOpen}
+        className={clsx("flex hover:opacity-70 cursor-pointer", {})}
+        onClick={() => {
+          setActive(!active);
+          if (isFile) {
+            push(`/editor/${project}/${directory.name}` as any);
+          }
+        }}
         onContextMenu={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -65,7 +51,7 @@ export const DirectoryTree = ({
             <ChevronRightIcon
               size={20}
               className={clsx({
-                "transform rotate-90": directory.expanded,
+                "transform rotate-90": active,
               })}
             />
             <FolderIcon size={18} />
@@ -89,7 +75,7 @@ export const DirectoryTree = ({
             },
           }}
           initial={false}
-          animate={directory.expanded ? "visible" : "hidden"}
+          animate={active ? "visible" : "hidden"}
         >
           {directory.children?.map((child) => (
             <DirectoryTree key={child.id} directory={child} />

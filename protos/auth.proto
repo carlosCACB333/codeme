@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package pb;
+import "user.proto";
+
+
+message SignUpReq{
+    string username  =2;
+    string firstName =3;
+    string lastName  =4;
+    string email     =5;
+    optional string gender    =6;
+    string password  =7;
+    optional string picture     =8;
+    optional string phone     =9;
+}
+
+message SignUpRes{
+    User user = 1;
+    optional string token = 2;
+}
+
+message SignInReq{
+    string username  =2;
+    string password  =3;
+}
+
+message SignInRes{
+    User user = 1;
+    optional string token = 2;
+}
+
+service AuthSvc{
+    rpc SignUp(SignUpReq) returns (SignUpRes);
+    rpc SignIn(SignInReq) returns (SignInRes);
+}

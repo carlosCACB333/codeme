@@ -1,4 +1,5 @@
 import sys
+import os
 
 sys.path.insert(1, "./pb")
 import grpc
@@ -10,11 +11,13 @@ from reflection import enable_reflection
 
 def main():
     try:
+        port = os.environ.get("PYTHON_APP_PORT")
+        addr = f"[::]:{port}"
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         add_benchmark_service(server)
-        server.add_insecure_port("[::]:8082")
+        server.add_insecure_port(addr)
         server.start()
-        print("🚀 Server started")
+        print(f"🐍Python server started on port {addr}")
 
         enable_reflection(server)
 
@@ -22,7 +25,7 @@ def main():
 
     except:
         server.stop(0)
-        print("⛔ Server stopped")
+        print("⛔Python server stopped")
 
 
 if __name__ == "__main__":

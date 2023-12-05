@@ -1,8 +1,14 @@
 syntax = "proto3";
 package pb;
 
-import "common.proto";
+message BenchRes{
+    string message = 1;
+}
 
-service BenchMarkService {
-    rpc ExecuteBenchMark (GenericReq) returns (GenericRes) {}
+message BenchReq{
+    int64 len = 1;
+}
+
+service BenchMarkSvc {
+    rpc ExecuteBenchMark (BenchReq) returns (BenchRes) {}
 }

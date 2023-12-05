@@ -14,7 +14,7 @@ export default function EditorLayout({ children }: LayoutProps) {
     <div className="flex h-screen gap-1">
       <div className="flex flex-col justify-between bg-content1 px-2 py-4">
         <div className="flex flex-col gap-1">
-          {[1, 2, 3, 4, 5].map((item) => (
+          {[1, 2].map((item) => (
             <Link
               key={item}
               href={("/editor/" + item) as any}

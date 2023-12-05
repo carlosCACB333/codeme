@@ -2,43 +2,43 @@
 
 'use strict';
 var grpc = require('@grpc/grpc-js');
-var common_pb = require('./common_pb.js');
+var benchmark_pb = require('./benchmark_pb.js');
 
-function serialize_pb_GenericReq(arg) {
-  if (!(arg instanceof common_pb.GenericReq)) {
-    throw new Error('Expected argument of type pb.GenericReq');
+function serialize_pb_BenchReq(arg) {
+  if (!(arg instanceof benchmark_pb.BenchReq)) {
+    throw new Error('Expected argument of type pb.BenchReq');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_pb_GenericReq(buffer_arg) {
-  return common_pb.GenericReq.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_pb_BenchReq(buffer_arg) {
+  return benchmark_pb.BenchReq.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_pb_GenericRes(arg) {
-  if (!(arg instanceof common_pb.GenericRes)) {
-    throw new Error('Expected argument of type pb.GenericRes');
+function serialize_pb_BenchRes(arg) {
+  if (!(arg instanceof benchmark_pb.BenchRes)) {
+    throw new Error('Expected argument of type pb.BenchRes');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_pb_GenericRes(buffer_arg) {
-  return common_pb.GenericRes.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_pb_BenchRes(buffer_arg) {
+  return benchmark_pb.BenchRes.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
-var BenchMarkServiceService = exports.BenchMarkServiceService = {
+var BenchMarkSvcService = exports.BenchMarkSvcService = {
   executeBenchMark: {
-    path: '/pb.BenchMarkService/ExecuteBenchMark',
+    path: '/pb.BenchMarkSvc/ExecuteBenchMark',
     requestStream: false,
     responseStream: false,
-    requestType: common_pb.GenericReq,
-    responseType: common_pb.GenericRes,
-    requestSerialize: serialize_pb_GenericReq,
-    requestDeserialize: deserialize_pb_GenericReq,
-    responseSerialize: serialize_pb_GenericRes,
-    responseDeserialize: deserialize_pb_GenericRes,
+    requestType: benchmark_pb.BenchReq,
+    responseType: benchmark_pb.BenchRes,
+    requestSerialize: serialize_pb_BenchReq,
+    requestDeserialize: deserialize_pb_BenchReq,
+    responseSerialize: serialize_pb_BenchRes,
+    responseDeserialize: deserialize_pb_BenchRes,
   },
 };
 
-exports.BenchMarkServiceClient = grpc.makeGenericClientConstructor(BenchMarkServiceService);
+exports.BenchMarkSvcClient = grpc.makeGenericClientConstructor(BenchMarkSvcService);

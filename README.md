@@ -46,10 +46,10 @@ cd <project>
 
 # EMPIEZA A DESARROLLAR
 
-- Necesitar tener instalado las extensiones de los containers
+- Necesitar tener instalado las extensiones `Remote Development`
 - Necesitas que tus contenedores esten en ejecución
 - Ejecuta `clt + shit + p` y escribir _Attach to Running Container_
-- Selecciona el contenedor en la que quieras trabajar. Se habrirá otra ventana de vscode totamente limpia. Necesitaras instalar aquí tus dependencias para desarrollar(en el apartado anterior tienes toda las extensiones recomendadas)
+- Selecciona el contenedor en la que quieras trabajar. Se habrirá otra ventana de vscode totamente limpia. Necesitaras instalar aquí tus extensiones para desarrollar(en el apartado anterior tienes toda las extensiones recomendadas)
 - Ya puedes desarrollar.
 
 # PRUEBA TUS SERVICOS CON POSTMAN

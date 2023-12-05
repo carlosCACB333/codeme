@@ -1,43 +1,39 @@
 "use client";
 
 import { CloseIcon } from "@/components/assets/icons";
-import { useDirectory } from "@/hooks";
 import { useRouter } from "@/utils/navigation";
 import { Button } from "@nextui-org/button";
 import { NavbarItem } from "@nextui-org/navbar";
 import { useParams } from "next/navigation";
 
 export const ActiveFiles = () => {
-  const activeFiles = useDirectory((state) => state.activeFiles);
-  const removeActiveFile = useDirectory((state) => state.removeActiveFile);
   const { project, file = "" } = useParams();
   const { push } = useRouter();
 
+  if (!file) return null;
+
   return (
     <>
-      {activeFiles.map((f) => (
-        <NavbarItem key={f.id}>
-          <Button
-            onClick={() => {
-              push(`/editor/${project}/${f.id}` as any);
-            }}
-            size="sm"
-            variant={f.id === file ? "ghost" : "light"}
-            endContent={
-              <CloseIcon
-                size={18}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  removeActiveFile(f.id);
-                }}
-              />
-            }
-          >
-            <span>{f.name}</span>
-          </Button>
-        </NavbarItem>
-      ))}
+      <NavbarItem>
+        <Button
+          onClick={() => {
+            push(`/editor/${project}/${file}` as any);
+          }}
+          size="sm"
+          variant={"ghost"}
+          endContent={
+            <CloseIcon
+              size={18}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            />
+          }
+        >
+          <span>{file}</span>
+        </Button>
+      </NavbarItem>
     </>
   );
 };

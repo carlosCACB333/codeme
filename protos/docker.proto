@@ -1,0 +1,16 @@
+syntax = "proto3";
+package pb;
+
+message ExecuteCodeReq{
+    string code = 1;
+    string lang = 2;
+}
+
+message ExecuteCodeResp{
+    string output = 1;
+}
+
+service DockerSvc{
+    rpc ExecuteCode (ExecuteCodeReq) returns (stream ExecuteCodeResp) {}
+}
+

@@ -36,6 +36,7 @@ services:
     volumes:
       - ./rust-app:/app
       - ./protos:/app/protos
+      - /run/docker.sock:/var/run/docker.sock
 
     networks:
       - codeme-net

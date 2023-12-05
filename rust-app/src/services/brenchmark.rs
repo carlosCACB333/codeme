@@ -1,27 +1,31 @@
-use crate::pb::bench_mark_service_server::BenchMarkService;
-use crate::pb::{GenericReq, GenericRes, Status};
+use crate::pb;
 #[derive(Debug, Default)]
-pub struct MyBrenchMarkService {}
+pub struct BrenchSvc {}
+
+impl BrenchSvc {
+    pub fn get_svc() -> pb::bench_mark_svc_server::BenchMarkSvcServer<BrenchSvc> {
+        pb::bench_mark_svc_server::BenchMarkSvcServer::new(BrenchSvc::default())
+    }
+}
 
 #[tonic::async_trait]
-impl BenchMarkService for MyBrenchMarkService {
+impl pb::bench_mark_svc_server::BenchMarkSvc for BrenchSvc {
     async fn execute_bench_mark(
         &self,
-        _req: tonic::Request<GenericReq>,
-    ) -> Result<tonic::Response<GenericRes>, tonic::Status> {
-        let val = _req.get_ref().id.clone();
-        let num = val.parse::<u64>().unwrap();
+        _req: tonic::Request<pb::BenchReq>,
+    ) -> Result<tonic::Response<pb::BenchRes>, tonic::Status> {
+        let req = _req.into_inner();
+        let len = req.len;
+
         let mut counter: u64 = 0;
-        for _i in 0..num {
+        for _i in 0..len {
             counter += 1;
             if counter % 100000000 == 0 {
                 println!("counter: {}", counter);
             }
         }
-        let reply = GenericRes {
-            status: Status::Ok.into(),
+        let reply = pb::BenchRes {
             message: format!("Executed {} iterations in rust", counter),
-            value: None,
         };
         Ok(tonic::Response::new(reply))
     }

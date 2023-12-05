@@ -1,26 +1,24 @@
 from benchmark_pb2_grpc import (
-    BenchMarkServiceServicer,
-    add_BenchMarkServiceServicer_to_server,
+    BenchMarkSvcServicer,
+    add_BenchMarkSvcServicer_to_server,
 )
-from common_pb2 import GenericRes, Status
+from benchmark_pb2 import BenchRes, BenchReq
 
 
-class BenchMarkService(BenchMarkServiceServicer):
-    def ExecuteBenchMark(self, request, context):
-        num = int(request.id)
+class BenchMarkService(BenchMarkSvcServicer):
+    def ExecuteBenchMark(self, req: BenchReq, context):
+        num = int(req.len)
         counter = 0
         for i in range(1, num + 1):
-            counter += i
+            counter += 1
             if i % 100000000 == 0:
                 print(f"Executed {i} iterations in python")
 
-        response = GenericRes(
-            status=Status.OK,
+        response = BenchRes(
             message=f"Executed {counter} iterations in python",
-            value=None,
         )
         return response
 
 
 def add_benchmark_service(server):
-    add_BenchMarkServiceServicer_to_server(BenchMarkService(), server)
+    add_BenchMarkSvcServicer_to_server(BenchMarkService(), server)

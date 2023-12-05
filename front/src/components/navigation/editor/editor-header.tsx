@@ -11,7 +11,12 @@ const ActiveFileDynamically = dynamic(
   }
 );
 
-export const EditorHeader = () => {
+interface Props {
+  onClick: () => void;
+  isLoading: boolean;
+}
+
+export const EditorHeader = ({ onClick, isLoading }: Props) => {
   return (
     <Navbar maxWidth="full" className="">
       <div className="w-full grid gap-4 grid-cols-auto-1fr ">
@@ -20,7 +25,12 @@ export const EditorHeader = () => {
         </NavbarContent>
         <NavbarContent className="" justify="end">
           <NavbarItem>
-            <Button size="lg" isIconOnly>
+            <Button
+              size="lg"
+              isIconOnly
+              onClick={onClick}
+              isLoading={isLoading}
+            >
               <PlayIcon />
             </Button>
           </NavbarItem>

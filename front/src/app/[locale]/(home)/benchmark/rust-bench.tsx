@@ -1,11 +1,11 @@
-import { grpcRustExecuteBench } from "@/grpc/benchmark";
+import { grpcExecuteBench } from "@/grpc/rust";
 
 interface Props {
   count: number;
 }
 
 export const RustBench = async ({ count }: Props) => {
-  const { data } = await grpcRustExecuteBench(count.toString());
+  const { data } = await grpcExecuteBench(count);
 
   return (
     <div>

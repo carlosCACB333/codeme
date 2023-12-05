@@ -1,6 +1,6 @@
 "use client";
 
-import { useDirectory } from "@/hooks";
+import { directories } from "@/data/directory-tree";
 import dynamic from "next/dynamic";
 
 const DirectoryTreeDynamically = dynamic(
@@ -10,7 +10,6 @@ const DirectoryTreeDynamically = dynamic(
   }
 );
 export const DirectoryNavigation = () => {
-  const directories = useDirectory((state) => state.directories);
   return (
     <div className="flex flex-col">
       {directories.map((directory) => (

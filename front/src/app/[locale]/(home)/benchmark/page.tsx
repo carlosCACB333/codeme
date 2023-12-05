@@ -5,7 +5,7 @@ import { RustBench } from "./rust-bench";
 export const revalidate = 0;
 
 export default function Benchmark() {
-  const count = 500000000;
+  const count = 100000000;
   return (
     <div className="">
       <p className="text-center text-3xl my-4">Rust vs Python</p>

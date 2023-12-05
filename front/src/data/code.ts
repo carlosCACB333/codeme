@@ -20,3 +20,10 @@ const Application = ({Component, pageProps}) => {
   );
 };
 `;
+
+export const pythonCode = `def print_numbers(limit):
+    for i in range(limit):
+        print(i)
+
+print_numbers(10)
+`;
