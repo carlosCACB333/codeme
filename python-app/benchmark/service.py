@@ -3,19 +3,27 @@ from benchmark_pb2_grpc import (
     add_BenchMarkSvcServicer_to_server,
 )
 from benchmark_pb2 import BenchRes, BenchReq
+from common_pb2 import STATUS
+import time
 
 
 class BenchMarkService(BenchMarkSvcServicer):
     def ExecuteBenchMark(self, req: BenchReq, context):
         num = int(req.len)
+
+        start_time = time.time()
+
         counter = 0
         for i in range(1, num + 1):
             counter += 1
-            if i % 100000000 == 0:
-                print(f"Executed {i} iterations in python")
+            if counter % 100000000 == 0:
+                print(f"Iteration Python: {counter}")
+
+        end_time = time.time()
 
         response = BenchRes(
-            message=f"Executed {counter} iterations in python",
+            status=STATUS.OK,
+            message=f"Executed {counter} iterations in {end_time - start_time} seconds in python",
         )
         return response
 

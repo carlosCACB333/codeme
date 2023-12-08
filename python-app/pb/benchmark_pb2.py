@@ -11,19 +11,20 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
+import common_pb2 as common__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x62\x65nchmark.proto\x12\x02pb\"\x1b\n\x08\x42\x65nchRes\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x17\n\x08\x42\x65nchReq\x12\x0b\n\x03len\x18\x01 \x01(\x03\x32@\n\x0c\x42\x65nchMarkSvc\x12\x30\n\x10\x45xecuteBenchMark\x12\x0c.pb.BenchReq\x1a\x0c.pb.BenchRes\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x62\x65nchmark.proto\x12\x02pb\x1a\x0c\x63ommon.proto\"7\n\x08\x42\x65nchRes\x12\x1a\n\x06status\x18\x01 \x01(\x0e\x32\n.pb.STATUS\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x17\n\x08\x42\x65nchReq\x12\x0b\n\x03len\x18\x01 \x01(\x03\x32@\n\x0c\x42\x65nchMarkSvc\x12\x30\n\x10\x45xecuteBenchMark\x12\x0c.pb.BenchReq\x1a\x0c.pb.BenchRes\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'benchmark_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_BENCHRES']._serialized_start=23
-  _globals['_BENCHRES']._serialized_end=50
-  _globals['_BENCHREQ']._serialized_start=52
-  _globals['_BENCHREQ']._serialized_end=75
-  _globals['_BENCHMARKSVC']._serialized_start=77
-  _globals['_BENCHMARKSVC']._serialized_end=141
+  _globals['_BENCHRES']._serialized_start=37
+  _globals['_BENCHRES']._serialized_end=92
+  _globals['_BENCHREQ']._serialized_start=94
+  _globals['_BENCHREQ']._serialized_end=117
+  _globals['_BENCHMARKSVC']._serialized_start=119
+  _globals['_BENCHMARKSVC']._serialized_end=183
 # @@protoc_insertion_point(module_scope)

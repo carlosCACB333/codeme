@@ -1,5 +1,6 @@
 import { subtitle, title } from "@/components/assets/primitives";
-import { CodeWindow } from "@/components/common/code/code-window";
+import { Codeblock } from "@/components/common/code/code-block";
+import { Window } from "@/components/common/window";
 import { darkModeCode } from "@/data/code";
 import { PageProps } from "@/interfaces";
 import { Button } from "@nextui-org/button";
@@ -12,7 +13,7 @@ export default function Home({ params: { locale } }: PageProps) {
   const [first, second, ...rest] = t("welcome").split(" ");
 
   return (
-    <section className="flex gap-8 py-8 md:py-10">
+    <section className="flex gap-8 py-8 md:py-10 p-8">
       <div className="flex-1 flex flex-col items-center max-w-xl justify-center">
         <div className="inline-block text-center justify-center">
           <h1 className={title()}>{first}&nbsp;</h1>
@@ -30,15 +31,14 @@ export default function Home({ params: { locale } }: PageProps) {
         </div>
       </div>
       <div className="flex-1">
-        <CodeWindow
-          showCopy
-          showWindowIcons
-          title="DarkMode.tsx"
-          highlightLines="7-9"
-          className="min-h-[520px] h-auto"
-          language="jsx"
-          value={darkModeCode}
-        />
+        <Window showCopy showWindowIcons title="DarkMode.tsx">
+          <Codeblock
+            codeString={darkModeCode}
+            language="jsx"
+            showLines
+            showCopy
+          />
+        </Window>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@
 'use strict';
 var grpc = require('@grpc/grpc-js');
 var benchmark_pb = require('./benchmark_pb.js');
+var common_pb = require('./common_pb.js');
 
 function serialize_pb_BenchReq(arg) {
   if (!(arg instanceof benchmark_pb.BenchReq)) {

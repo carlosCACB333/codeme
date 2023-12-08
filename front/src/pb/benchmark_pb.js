@@ -21,6 +21,8 @@ var global = (function() {
   return Function('return this')();
 }.call(null));
 
+var common_pb = require('./common_pb.js');
+goog.object.extend(proto, common_pb);
 goog.exportSymbol('proto.pb.BenchReq', null, global);
 goog.exportSymbol('proto.pb.BenchRes', null, global);
 /**
@@ -97,7 +99,8 @@ proto.pb.BenchRes.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.BenchRes.toObject = function(includeInstance, msg) {
   var f, obj = {
-    message: jspb.Message.getFieldWithDefault(msg, 1, "")
+    status: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    message: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -135,6 +138,10 @@ proto.pb.BenchRes.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
+      var value = /** @type {!proto.pb.STATUS} */ (reader.readEnum());
+      msg.setStatus(value);
+      break;
+    case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setMessage(value);
       break;
@@ -167,10 +174,17 @@ proto.pb.BenchRes.prototype.serializeBinary = function() {
  */
 proto.pb.BenchRes.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getStatus();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      1,
+      f
+    );
+  }
   f = message.getMessage();
   if (f.length > 0) {
     writer.writeString(
-      1,
+      2,
       f
     );
   }
@@ -178,11 +192,29 @@ proto.pb.BenchRes.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string message = 1;
+ * optional STATUS status = 1;
+ * @return {!proto.pb.STATUS}
+ */
+proto.pb.BenchRes.prototype.getStatus = function() {
+  return /** @type {!proto.pb.STATUS} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/**
+ * @param {!proto.pb.STATUS} value
+ * @return {!proto.pb.BenchRes} returns this
+ */
+proto.pb.BenchRes.prototype.setStatus = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional string message = 2;
  * @return {string}
  */
 proto.pb.BenchRes.prototype.getMessage = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
@@ -191,7 +223,7 @@ proto.pb.BenchRes.prototype.getMessage = function() {
  * @return {!proto.pb.BenchRes} returns this
  */
 proto.pb.BenchRes.prototype.setMessage = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

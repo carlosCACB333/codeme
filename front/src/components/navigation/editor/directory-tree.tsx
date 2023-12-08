@@ -85,3 +85,5 @@ export const DirectoryTree = ({
     </div>
   );
 };
+
+export default DirectoryTree;

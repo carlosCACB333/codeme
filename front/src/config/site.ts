@@ -41,10 +41,8 @@ export const siteConfig = {
   navItems: navItems,
   navMenuItems: navItems,
   links: {
-    github: "https://github.com/nextui-org/nextui",
-    twitter: "https://twitter.com/getnextui",
-    docs: "https://nextui.org",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
+    github: "https://github.com/carloscacb333",
+    twitter: "https://twitter.com/carloscacb333",
+    discord: "https://discord.gg/",
   },
 };

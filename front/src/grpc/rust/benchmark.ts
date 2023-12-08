@@ -1,5 +1,6 @@
 import { Response } from "@/interfaces";
 import { BenchReq, BenchRes } from "@/pb/benchmark_pb";
+import { STATUS } from "@/pb/common_pb";
 import { benchmarkSvc } from "@/services/rust";
 
 export const grpcExecuteBench = async (
@@ -12,12 +13,12 @@ export const grpcExecuteBench = async (
       if (err) {
         resolve({
           message: err.details,
-          status: "error",
+          status: STATUS.ERROR,
         });
       } else {
         resolve({
           message: res.getMessage(),
-          status: "success",
+          status: res.getStatus(),
           data: res.toObject(),
         });
       }

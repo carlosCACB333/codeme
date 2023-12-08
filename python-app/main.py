@@ -5,7 +5,6 @@ sys.path.insert(1, "./pb")
 import grpc
 from concurrent import futures
 from benchmark.service import add_benchmark_service
-from grpc_reflection.v1alpha import reflection
 from reflection import enable_reflection
 
 

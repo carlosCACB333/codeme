@@ -5,6 +5,7 @@
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
+import * as common_pb from "./common_pb";
 
 export class ExecuteCodeReq extends jspb.Message { 
     getCode(): string;
@@ -30,6 +31,8 @@ export namespace ExecuteCodeReq {
 }
 
 export class ExecuteCodeResp extends jspb.Message { 
+    getStatus(): common_pb.STATUS;
+    setStatus(value: common_pb.STATUS): ExecuteCodeResp;
     getOutput(): string;
     setOutput(value: string): ExecuteCodeResp;
 
@@ -45,6 +48,7 @@ export class ExecuteCodeResp extends jspb.Message {
 
 export namespace ExecuteCodeResp {
     export type AsObject = {
+        status: common_pb.STATUS,
         output: string,
     }
 }

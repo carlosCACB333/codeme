@@ -1,8 +1,8 @@
-use std::time::SystemTime;
-
 use crate::libs::jwt;
 use crate::schema::users;
 use diesel::{pg::Pg, prelude::*};
+use std::time::SystemTime;
+use validator::Validate;
 
 enum UserStatus {
     PendingEmailVerification,
@@ -35,17 +35,20 @@ pub struct User {
     pub updated_at: SystemTime,
 }
 
-#[derive(Insertable, Debug)]
+#[derive(Insertable, Debug, Validate)]
 #[diesel(table_name = users)]
 #[diesel(check_for_backend(Pg))]
 pub struct NewUser {
     pub id: String,
     pub username: String,
+    #[validate(email(message = "Email inválido"))]
     pub email: String,
     pub first_name: String,
     pub last_name: String,
+    #[validate(length(min = 6, message = "Contraseña inválida"))]
     pub password: String,
     pub gender: Option<String>,
+    #[validate(length(min = 9, max = 9, message = "Teléfono inválido"))]
     pub phone: Option<String>,
     pub picture: Option<String>,
     pub status: String,

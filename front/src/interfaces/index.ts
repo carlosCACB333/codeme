@@ -1,3 +1,5 @@
+import { STATUS } from "@/pb/common_pb";
+
 export type Locale = "en" | "es";
 
 interface Params {
@@ -26,11 +28,9 @@ export interface SearchItem {
   };
 }
 
-type Status = "success" | "error";
-
 export interface Response<T> {
   data?: T;
-  status: Status;
+  status: STATUS;
   message: string;
   [key: string]: any;
 }

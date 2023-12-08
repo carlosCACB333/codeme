@@ -1,7 +1,9 @@
 use crate::models::user::{NewUser, User};
 use crate::pb;
 use diesel::{r2d2, PgConnection};
-use tonic::Response;
+use tonic::{Code, Response, Status};
+use tonic_types::{ErrorDetails, StatusExt};
+use validator::Validate;
 
 #[derive(Debug)]
 pub struct AuthSvc {
@@ -37,10 +39,27 @@ impl pb::auth_svc_server::AuthSvc for AuthSvc {
             req.picture,
         );
 
+        let validation = user.validate();
+
+        if validation.is_err() {
+            let errors = validation.err().unwrap();
+            let mut details = ErrorDetails::new();
+            for (field, errors) in errors.field_errors() {
+                for error in errors {
+                    details.add_bad_request_violation(field, error.to_string());
+                }
+            }
+            return Err(Status::with_error_details(
+                Code::InvalidArgument,
+                "Datos incorrectos",
+                details,
+            ));
+        }
+
         let user = user.insert(conn);
 
         if user.is_err() {
-            return Err(tonic::Status::from_error(user.err().unwrap().into()));
+            return Err(Status::from_error(user.err().unwrap().into()));
         }
 
         let user = user.unwrap();
@@ -48,6 +67,7 @@ impl pb::auth_svc_server::AuthSvc for AuthSvc {
         let token = user.encode_jwt().ok();
 
         Ok(Response::new(pb::SignUpRes {
+            status: pb::Status::Ok as i32,
             token,
             user: Some(pb::User {
                 id: user.id,
@@ -87,6 +107,7 @@ impl pb::auth_svc_server::AuthSvc for AuthSvc {
         let token = user.encode_jwt().ok();
 
         Ok(Response::new(pb::SignInRes {
+            status: pb::Status::Ok as i32,
             token,
             user: Some(pb::User {
                 id: user.id,

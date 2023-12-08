@@ -3,6 +3,7 @@
 'use strict';
 var grpc = require('@grpc/grpc-js');
 var docker_pb = require('./docker_pb.js');
+var common_pb = require('./common_pb.js');
 
 function serialize_pb_ExecuteCodeReq(arg) {
   if (!(arg instanceof docker_pb.ExecuteCodeReq)) {

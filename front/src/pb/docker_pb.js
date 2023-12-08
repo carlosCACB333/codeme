@@ -21,6 +21,8 @@ var global = (function() {
   return Function('return this')();
 }.call(null));
 
+var common_pb = require('./common_pb.js');
+goog.object.extend(proto, common_pb);
 goog.exportSymbol('proto.pb.ExecuteCodeReq', null, global);
 goog.exportSymbol('proto.pb.ExecuteCodeResp', null, global);
 /**
@@ -257,7 +259,8 @@ proto.pb.ExecuteCodeResp.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.ExecuteCodeResp.toObject = function(includeInstance, msg) {
   var f, obj = {
-    output: jspb.Message.getFieldWithDefault(msg, 1, "")
+    status: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    output: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -295,6 +298,10 @@ proto.pb.ExecuteCodeResp.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
+      var value = /** @type {!proto.pb.STATUS} */ (reader.readEnum());
+      msg.setStatus(value);
+      break;
+    case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setOutput(value);
       break;
@@ -327,10 +334,17 @@ proto.pb.ExecuteCodeResp.prototype.serializeBinary = function() {
  */
 proto.pb.ExecuteCodeResp.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getStatus();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      1,
+      f
+    );
+  }
   f = message.getOutput();
   if (f.length > 0) {
     writer.writeString(
-      1,
+      2,
       f
     );
   }
@@ -338,11 +352,29 @@ proto.pb.ExecuteCodeResp.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string output = 1;
+ * optional STATUS status = 1;
+ * @return {!proto.pb.STATUS}
+ */
+proto.pb.ExecuteCodeResp.prototype.getStatus = function() {
+  return /** @type {!proto.pb.STATUS} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/**
+ * @param {!proto.pb.STATUS} value
+ * @return {!proto.pb.ExecuteCodeResp} returns this
+ */
+proto.pb.ExecuteCodeResp.prototype.setStatus = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional string output = 2;
  * @return {string}
  */
 proto.pb.ExecuteCodeResp.prototype.getOutput = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
@@ -351,7 +383,7 @@ proto.pb.ExecuteCodeResp.prototype.getOutput = function() {
  * @return {!proto.pb.ExecuteCodeResp} returns this
  */
 proto.pb.ExecuteCodeResp.prototype.setOutput = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

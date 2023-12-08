@@ -1,5 +1,5 @@
 import { clsx } from "@nextui-org/shared-utils";
-import React from "react";
+import { FC } from "react";
 import { tv } from "tailwind-variants";
 
 export type WindowActionsProps = {
@@ -18,7 +18,7 @@ const windowIconStyles = tv({
   },
 });
 
-export const WindowActions: React.FC<WindowActionsProps> = ({
+export const WindowActions: FC<WindowActionsProps> = ({
   title,
   className,
   ...props
@@ -37,7 +37,7 @@ export const WindowActions: React.FC<WindowActionsProps> = ({
         <div className={windowIconStyles({ color: "green" })} />
       </div>
       <div className="flex basis-1/3 h-full justify-center items-center">
-        {title && <p className="text-white/30 text-xs font-light">{title}</p>}
+        {title && <p className="text-xs font-light">{title}</p>}
       </div>
       <div className="flex basis-1/3" />
     </div>

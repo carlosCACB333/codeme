@@ -1,14 +1,10 @@
-"use client";
-
 import { directories } from "@/data/directory-tree";
 import dynamic from "next/dynamic";
 
-const DirectoryTreeDynamically = dynamic(
-  () => import("./directory-tree").then((mod) => mod.DirectoryTree),
-  {
-    ssr: false,
-  }
-);
+const DirectoryTreeDynamically = dynamic(() => import("./directory-tree"), {
+  ssr: false,
+});
+
 export const DirectoryNavigation = () => {
   return (
     <div className="flex flex-col">

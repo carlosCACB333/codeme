@@ -1,4 +1,5 @@
 import user_pb2 as _user_pb2
+import common_pb2 as _common_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
@@ -26,12 +27,14 @@ class SignUpReq(_message.Message):
     def __init__(self, username: _Optional[str] = ..., firstName: _Optional[str] = ..., lastName: _Optional[str] = ..., email: _Optional[str] = ..., gender: _Optional[str] = ..., password: _Optional[str] = ..., picture: _Optional[str] = ..., phone: _Optional[str] = ...) -> None: ...
 
 class SignUpRes(_message.Message):
-    __slots__ = ["user", "token"]
+    __slots__ = ["status", "user", "token"]
+    STATUS_FIELD_NUMBER: _ClassVar[int]
     USER_FIELD_NUMBER: _ClassVar[int]
     TOKEN_FIELD_NUMBER: _ClassVar[int]
+    status: _common_pb2.STATUS
     user: _user_pb2.User
     token: str
-    def __init__(self, user: _Optional[_Union[_user_pb2.User, _Mapping]] = ..., token: _Optional[str] = ...) -> None: ...
+    def __init__(self, status: _Optional[_Union[_common_pb2.STATUS, str]] = ..., user: _Optional[_Union[_user_pb2.User, _Mapping]] = ..., token: _Optional[str] = ...) -> None: ...
 
 class SignInReq(_message.Message):
     __slots__ = ["username", "password"]
@@ -42,9 +45,11 @@ class SignInReq(_message.Message):
     def __init__(self, username: _Optional[str] = ..., password: _Optional[str] = ...) -> None: ...
 
 class SignInRes(_message.Message):
-    __slots__ = ["user", "token"]
+    __slots__ = ["status", "user", "token"]
+    STATUS_FIELD_NUMBER: _ClassVar[int]
     USER_FIELD_NUMBER: _ClassVar[int]
     TOKEN_FIELD_NUMBER: _ClassVar[int]
+    status: _common_pb2.STATUS
     user: _user_pb2.User
     token: str
-    def __init__(self, user: _Optional[_Union[_user_pb2.User, _Mapping]] = ..., token: _Optional[str] = ...) -> None: ...
+    def __init__(self, status: _Optional[_Union[_common_pb2.STATUS, str]] = ..., user: _Optional[_Union[_user_pb2.User, _Mapping]] = ..., token: _Optional[str] = ...) -> None: ...

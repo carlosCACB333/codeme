@@ -5,8 +5,11 @@
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
+import * as common_pb from "./common_pb";
 
 export class BenchRes extends jspb.Message { 
+    getStatus(): common_pb.STATUS;
+    setStatus(value: common_pb.STATUS): BenchRes;
     getMessage(): string;
     setMessage(value: string): BenchRes;
 
@@ -22,6 +25,7 @@ export class BenchRes extends jspb.Message {
 
 export namespace BenchRes {
     export type AsObject = {
+        status: common_pb.STATUS,
         message: string,
     }
 }

@@ -6,6 +6,7 @@
 
 import * as jspb from "google-protobuf";
 import * as user_pb from "./user_pb";
+import * as common_pb from "./common_pb";
 
 export class SignUpReq extends jspb.Message { 
     getUsername(): string;
@@ -58,6 +59,8 @@ export namespace SignUpReq {
 }
 
 export class SignUpRes extends jspb.Message { 
+    getStatus(): common_pb.STATUS;
+    setStatus(value: common_pb.STATUS): SignUpRes;
 
     hasUser(): boolean;
     clearUser(): void;
@@ -81,6 +84,7 @@ export class SignUpRes extends jspb.Message {
 
 export namespace SignUpRes {
     export type AsObject = {
+        status: common_pb.STATUS,
         user?: user_pb.User.AsObject,
         token?: string,
     }
@@ -110,6 +114,8 @@ export namespace SignInReq {
 }
 
 export class SignInRes extends jspb.Message { 
+    getStatus(): common_pb.STATUS;
+    setStatus(value: common_pb.STATUS): SignInRes;
 
     hasUser(): boolean;
     clearUser(): void;
@@ -133,6 +139,7 @@ export class SignInRes extends jspb.Message {
 
 export namespace SignInRes {
     export type AsObject = {
+        status: common_pb.STATUS,
         user?: user_pb.User.AsObject,
         token?: string,
     }

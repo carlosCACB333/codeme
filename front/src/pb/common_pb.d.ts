@@ -22,3 +22,8 @@ export namespace Empty {
     export type AsObject = {
     }
 }
+
+export enum STATUS {
+    OK = 0,
+    ERROR = 1,
+}

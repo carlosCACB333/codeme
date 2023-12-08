@@ -3,10 +3,12 @@ import { executeCode } from "@/actions/docker";
 import { EditorHeader } from "@/components/navigation/editor";
 import { pythonCode } from "@/data/code";
 import { PageProps } from "@/interfaces";
+import { STATUS } from "@/pb/common_pb";
 import { ExecuteCodeResp } from "@/pb/docker_pb";
 import { Editor, Monaco } from "@monaco-editor/react";
 
 import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 const beforeMount = (monaco: Monaco) => {
   monaco.editor.defineTheme("my-theme", {
@@ -36,10 +38,13 @@ export default function FilePage({ params: { file, project } }: PageProps) {
             editorRef.current.getValue(),
             "python"
           );
-          if (result.status === "success") {
-            setResult(result.data!);
-          }
           setIsRunning(false);
+          if (result.status === STATUS.ERROR) {
+            toast.error(result.message);
+            return;
+          }
+          setResult(result.data!);
+          toast.success(result.message);
         }}
       />
       <Editor
@@ -53,6 +58,7 @@ export default function FilePage({ params: { file, project } }: PageProps) {
         }}
         beforeMount={beforeMount}
         onMount={(editor, monaco) => {
+          console.log(monaco.editor);
           editorRef.current = editor;
         }}
       />
@@ -60,7 +66,7 @@ export default function FilePage({ params: { file, project } }: PageProps) {
       <div className="flex flex-col gap-2 h-[200px] border-t-1 border-gray-800 overflow-y-auto scroll">
         {result.map((item, index) => (
           <div key={index} className="flex gap-2">
-            <span className="text-xs">{item.output}</span>
+            <span className="text-sm">{item.output}</span>
           </div>
         ))}
       </div>

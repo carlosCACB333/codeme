@@ -1,4 +1,5 @@
 import { Response } from "@/interfaces";
+import { STATUS } from "@/pb/common_pb";
 import { ExecuteCodeReq, ExecuteCodeResp } from "@/pb/docker_pb";
 import { dockerSvc } from "@/services/rust";
 
@@ -16,9 +17,9 @@ export const grpcExecuteCode = async (
     stream.on("data", (resp: ExecuteCodeResp) => {
       result.push(resp.toObject());
     });
-    stream.on("error", (err: Error) => {
+    stream.on("error", (err) => {
       resolve({
-        status: "error",
+        status: STATUS.ERROR,
         message: err.message,
       });
     });
@@ -26,7 +27,7 @@ export const grpcExecuteCode = async (
     stream.on("end", () => {
       resolve({
         message: "Ejecución finalizada",
-        status: "success",
+        status: STATUS.OK,
         data: result,
       });
     });

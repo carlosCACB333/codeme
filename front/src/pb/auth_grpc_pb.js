@@ -4,6 +4,7 @@
 var grpc = require('@grpc/grpc-js');
 var auth_pb = require('./auth_pb.js');
 var user_pb = require('./user_pb.js');
+var common_pb = require('./common_pb.js');
 
 function serialize_pb_SignInReq(arg) {
   if (!(arg instanceof auth_pb.SignInReq)) {

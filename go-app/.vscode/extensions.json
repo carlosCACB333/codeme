@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-vscode.makefile-tools",
+    "github.copilot-chat",
+    "github.copilot",
+    "zxh404.vscode-proto3",
+    "ms-azuretools.vscode-docker",
+    "golang.go",
+    "golang.go-nightly"
+  ]
+}

@@ -6,6 +6,7 @@
 
 import * as grpc from "@grpc/grpc-js";
 import * as benchmark_pb from "./benchmark_pb";
+import * as common_pb from "./common_pb";
 
 interface IBenchMarkSvcService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     executeBenchMark: IBenchMarkSvcService_IExecuteBenchMark;

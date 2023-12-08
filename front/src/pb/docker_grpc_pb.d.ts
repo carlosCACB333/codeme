@@ -6,6 +6,7 @@
 
 import * as grpc from "@grpc/grpc-js";
 import * as docker_pb from "./docker_pb";
+import * as common_pb from "./common_pb";
 
 interface IDockerSvcService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     executeCode: IDockerSvcService_IExecuteCode;

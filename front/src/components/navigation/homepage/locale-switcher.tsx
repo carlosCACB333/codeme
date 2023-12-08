@@ -27,6 +27,7 @@ export const LocaleSwitcher = () => {
       disabled={isPending}
       color="primary"
       className="p-0"
+      aria-label="Change language"
       variant={locale === "es" ? "solid" : "light"}
     >
       <LanguageIcon size={18} />

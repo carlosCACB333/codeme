@@ -1,21 +1,20 @@
-@import 'prism.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-
+/* @import "prism.css"; */
 
 html {
   font-size: 16px;
   padding: 0px !important;
+  overflow-x: hidden;
   scroll-padding-top: 64px;
-  scroll-behavior: smooth;
-
 }
 
-
+body {
+  min-height: 100vh;
+  position: relative;
+}
 
 @layer base {
   :root {
@@ -39,7 +38,7 @@ html {
     --code-highlighted-word3-bg-active: 116 223 162;
     --code-highlighted-word3-text: 209 244 224;
     /* sandpack + prism */
-    /* --code-string: 152 195 121;
+    --code-string: 152 195 121;
     --code-class: 145 180 213;
     --code-punctuation: 220 220 220;
     --code-number: 229 192 123;
@@ -51,24 +50,22 @@ html {
     --code-function: 97 175 239;
     --code-tag: 224 108 117;
     --code-attr-name: 145 180 213;
-    --code-language-javascript: 145 180 213; */
+    --code-language-javascript: 145 180 213;
   }
 }
 
-
-pre {
+/* pre {
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
-} 
-
+} */
 
 .scroll {
   &::-webkit-scrollbar {
     appearance: none;
-    
+
     &:vertical {
       width: 6px;
     }
@@ -79,7 +76,6 @@ pre {
   }
 
   &::-webkit-scrollbar-button {
-   
     &,
     &:increment {
       display: none;

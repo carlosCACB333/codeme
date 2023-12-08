@@ -1,10 +1,9 @@
-"use client";
 import { FolderIcon, PlusIcon } from "@/components/assets/icons";
 import { DirectoryNavigation } from "@/components/navigation/editor";
 import { LayoutProps } from "@/interfaces";
 import { Button } from "@nextui-org/button";
 
-export default function EditorLayout({
+export default async function EditorLayout({
   children,
   params: { project },
 }: LayoutProps) {

@@ -12,23 +12,24 @@ _sym_db = _symbol_database.Default()
 
 
 import user_pb2 as user__pb2
+import common_pb2 as common__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\x12\x02pb\x1a\nuser.proto\"\xc3\x01\n\tSignUpReq\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x11\n\tfirstName\x18\x03 \x01(\t\x12\x10\n\x08lastName\x18\x04 \x01(\t\x12\r\n\x05\x65mail\x18\x05 \x01(\t\x12\x13\n\x06gender\x18\x06 \x01(\tH\x00\x88\x01\x01\x12\x10\n\x08password\x18\x07 \x01(\t\x12\x14\n\x07picture\x18\x08 \x01(\tH\x01\x88\x01\x01\x12\x12\n\x05phone\x18\t \x01(\tH\x02\x88\x01\x01\x42\t\n\x07_genderB\n\n\x08_pictureB\x08\n\x06_phone\"A\n\tSignUpRes\x12\x16\n\x04user\x18\x01 \x01(\x0b\x32\x08.pb.User\x12\x12\n\x05token\x18\x02 \x01(\tH\x00\x88\x01\x01\x42\x08\n\x06_token\"/\n\tSignInReq\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\"A\n\tSignInRes\x12\x16\n\x04user\x18\x01 \x01(\x0b\x32\x08.pb.User\x12\x12\n\x05token\x18\x02 \x01(\tH\x00\x88\x01\x01\x42\x08\n\x06_token2Y\n\x07\x41uthSvc\x12&\n\x06SignUp\x12\r.pb.SignUpReq\x1a\r.pb.SignUpRes\x12&\n\x06SignIn\x12\r.pb.SignInReq\x1a\r.pb.SignInResb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\x12\x02pb\x1a\nuser.proto\x1a\x0c\x63ommon.proto\"\xc3\x01\n\tSignUpReq\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x11\n\tfirstName\x18\x03 \x01(\t\x12\x10\n\x08lastName\x18\x04 \x01(\t\x12\r\n\x05\x65mail\x18\x05 \x01(\t\x12\x13\n\x06gender\x18\x06 \x01(\tH\x00\x88\x01\x01\x12\x10\n\x08password\x18\x07 \x01(\t\x12\x14\n\x07picture\x18\x08 \x01(\tH\x01\x88\x01\x01\x12\x12\n\x05phone\x18\t \x01(\tH\x02\x88\x01\x01\x42\t\n\x07_genderB\n\n\x08_pictureB\x08\n\x06_phone\"]\n\tSignUpRes\x12\x1a\n\x06status\x18\x01 \x01(\x0e\x32\n.pb.STATUS\x12\x16\n\x04user\x18\x02 \x01(\x0b\x32\x08.pb.User\x12\x12\n\x05token\x18\x03 \x01(\tH\x00\x88\x01\x01\x42\x08\n\x06_token\"/\n\tSignInReq\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\"]\n\tSignInRes\x12\x1a\n\x06status\x18\x01 \x01(\x0e\x32\n.pb.STATUS\x12\x16\n\x04user\x18\x02 \x01(\x0b\x32\x08.pb.User\x12\x12\n\x05token\x18\x03 \x01(\tH\x00\x88\x01\x01\x42\x08\n\x06_token2Y\n\x07\x41uthSvc\x12&\n\x06SignUp\x12\r.pb.SignUpReq\x1a\r.pb.SignUpRes\x12&\n\x06SignIn\x12\r.pb.SignInReq\x1a\r.pb.SignInResb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'auth_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_SIGNUPREQ']._serialized_start=31
-  _globals['_SIGNUPREQ']._serialized_end=226
-  _globals['_SIGNUPRES']._serialized_start=228
-  _globals['_SIGNUPRES']._serialized_end=293
-  _globals['_SIGNINREQ']._serialized_start=295
-  _globals['_SIGNINREQ']._serialized_end=342
-  _globals['_SIGNINRES']._serialized_start=344
-  _globals['_SIGNINRES']._serialized_end=409
-  _globals['_AUTHSVC']._serialized_start=411
-  _globals['_AUTHSVC']._serialized_end=500
+  _globals['_SIGNUPREQ']._serialized_start=45
+  _globals['_SIGNUPREQ']._serialized_end=240
+  _globals['_SIGNUPRES']._serialized_start=242
+  _globals['_SIGNUPRES']._serialized_end=335
+  _globals['_SIGNINREQ']._serialized_start=337
+  _globals['_SIGNINREQ']._serialized_end=384
+  _globals['_SIGNINRES']._serialized_start=386
+  _globals['_SIGNINRES']._serialized_end=479
+  _globals['_AUTHSVC']._serialized_start=481
+  _globals['_AUTHSVC']._serialized_end=570
 # @@protoc_insertion_point(module_scope)

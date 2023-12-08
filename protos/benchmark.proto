@@ -1,8 +1,12 @@
 syntax = "proto3";
 package pb;
+option go_package = "github.com/carloscacb333/codeme-go/pb";
+
+import "common.proto";
 
 message BenchRes{
-    string message = 1;
+    STATUS status = 1;
+    string message = 2;
 }
 
 message BenchReq{

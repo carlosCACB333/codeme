@@ -1,7 +1,38 @@
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Empty {}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Status {
+    Ok = 0,
+    Error = 1,
+}
+impl Status {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Status::Ok => "OK",
+            Status::Error => "ERROR",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "OK" => Some(Self::Ok),
+            "ERROR" => Some(Self::Error),
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BenchRes {
-    #[prost(string, tag = "1")]
+    #[prost(enumeration = "Status", tag = "1")]
+    pub status: i32,
+    #[prost(string, tag = "2")]
     pub message: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -189,9 +220,6 @@ pub mod bench_mark_svc_server {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Empty {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct User {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -241,9 +269,11 @@ pub struct SignUpReq {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SignUpRes {
-    #[prost(message, optional, tag = "1")]
+    #[prost(enumeration = "Status", tag = "1")]
+    pub status: i32,
+    #[prost(message, optional, tag = "2")]
     pub user: ::core::option::Option<User>,
-    #[prost(string, optional, tag = "2")]
+    #[prost(string, optional, tag = "3")]
     pub token: ::core::option::Option<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -257,9 +287,11 @@ pub struct SignInReq {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SignInRes {
-    #[prost(message, optional, tag = "1")]
+    #[prost(enumeration = "Status", tag = "1")]
+    pub status: i32,
+    #[prost(message, optional, tag = "2")]
     pub user: ::core::option::Option<User>,
-    #[prost(string, optional, tag = "2")]
+    #[prost(string, optional, tag = "3")]
     pub token: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Generated server implementations.
@@ -497,7 +529,9 @@ pub struct ExecuteCodeReq {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExecuteCodeResp {
-    #[prost(string, tag = "1")]
+    #[prost(enumeration = "Status", tag = "1")]
+    pub status: i32,
+    #[prost(string, tag = "2")]
     pub output: ::prost::alloc::string::String,
 }
 /// Generated server implementations.

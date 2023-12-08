@@ -1,5 +1,8 @@
 syntax = "proto3";
 package pb;
+option go_package = "github.com/carloscacb333/codeme-go/pb";
+
+import "common.proto";
 
 message ExecuteCodeReq{
     string code = 1;
@@ -7,7 +10,8 @@ message ExecuteCodeReq{
 }
 
 message ExecuteCodeResp{
-    string output = 1;
+    STATUS status = 1;
+    string output = 2;
 }
 
 service DockerSvc{

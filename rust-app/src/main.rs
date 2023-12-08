@@ -2,7 +2,7 @@ use app::libs::db;
 use app::services::auth::AuthSvc;
 use app::services::brenchmark::BrenchSvc;
 use app::services::docker::DockerSvc;
-use app::COMMON_DESCRIPTOR_SET;
+use app::DESCRIPTOR_SET;
 use std::env;
 use tonic::transport::Server;
 
@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // services
     let reflection_svc = tonic_reflection::server::Builder::configure()
-        .register_encoded_file_descriptor_set(COMMON_DESCRIPTOR_SET)
+        .register_encoded_file_descriptor_set(DESCRIPTOR_SET)
         .build()?;
     let bren_svc = BrenchSvc::get_svc();
     let auth_svc = AuthSvc::new(pool.clone()).get_svc();

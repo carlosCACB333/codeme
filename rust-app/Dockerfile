@@ -2,7 +2,7 @@ FROM rust:1.74.0 as base
 RUN rustup component add rustfmt
 RUN apt-get update
 RUN apt-get install -y protobuf-compiler libprotobuf-dev
-# install only docker cli
+# install docker cli
 RUN apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg |  apt-key add -
 RUN echo "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" |  tee /etc/apt/sources.list.d/docker.list

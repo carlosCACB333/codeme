@@ -23,6 +23,8 @@ var global = (function() {
 
 var user_pb = require('./user_pb.js');
 goog.object.extend(proto, user_pb);
+var common_pb = require('./common_pb.js');
+goog.object.extend(proto, common_pb);
 goog.exportSymbol('proto.pb.SignInReq', null, global);
 goog.exportSymbol('proto.pb.SignInRes', null, global);
 goog.exportSymbol('proto.pb.SignUpReq', null, global);
@@ -537,8 +539,9 @@ proto.pb.SignUpRes.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.SignUpRes.toObject = function(includeInstance, msg) {
   var f, obj = {
+    status: jspb.Message.getFieldWithDefault(msg, 1, 0),
     user: (f = msg.getUser()) && user_pb.User.toObject(includeInstance, f),
-    token: jspb.Message.getFieldWithDefault(msg, 2, "")
+    token: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -576,11 +579,15 @@ proto.pb.SignUpRes.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
+      var value = /** @type {!proto.pb.STATUS} */ (reader.readEnum());
+      msg.setStatus(value);
+      break;
+    case 2:
       var value = new user_pb.User;
       reader.readMessage(value,user_pb.User.deserializeBinaryFromReader);
       msg.setUser(value);
       break;
-    case 2:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setToken(value);
       break;
@@ -613,18 +620,25 @@ proto.pb.SignUpRes.prototype.serializeBinary = function() {
  */
 proto.pb.SignUpRes.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getStatus();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      1,
+      f
+    );
+  }
   f = message.getUser();
   if (f != null) {
     writer.writeMessage(
-      1,
+      2,
       f,
       user_pb.User.serializeBinaryToWriter
     );
   }
-  f = /** @type {string} */ (jspb.Message.getField(message, 2));
+  f = /** @type {string} */ (jspb.Message.getField(message, 3));
   if (f != null) {
     writer.writeString(
-      2,
+      3,
       f
     );
   }
@@ -632,12 +646,30 @@ proto.pb.SignUpRes.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional User user = 1;
+ * optional STATUS status = 1;
+ * @return {!proto.pb.STATUS}
+ */
+proto.pb.SignUpRes.prototype.getStatus = function() {
+  return /** @type {!proto.pb.STATUS} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/**
+ * @param {!proto.pb.STATUS} value
+ * @return {!proto.pb.SignUpRes} returns this
+ */
+proto.pb.SignUpRes.prototype.setStatus = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional User user = 2;
  * @return {?proto.pb.User}
  */
 proto.pb.SignUpRes.prototype.getUser = function() {
   return /** @type{?proto.pb.User} */ (
-    jspb.Message.getWrapperField(this, user_pb.User, 1));
+    jspb.Message.getWrapperField(this, user_pb.User, 2));
 };
 
 
@@ -646,7 +678,7 @@ proto.pb.SignUpRes.prototype.getUser = function() {
  * @return {!proto.pb.SignUpRes} returns this
 */
 proto.pb.SignUpRes.prototype.setUser = function(value) {
-  return jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
@@ -664,16 +696,16 @@ proto.pb.SignUpRes.prototype.clearUser = function() {
  * @return {boolean}
  */
 proto.pb.SignUpRes.prototype.hasUser = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
- * optional string token = 2;
+ * optional string token = 3;
  * @return {string}
  */
 proto.pb.SignUpRes.prototype.getToken = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
@@ -682,7 +714,7 @@ proto.pb.SignUpRes.prototype.getToken = function() {
  * @return {!proto.pb.SignUpRes} returns this
  */
 proto.pb.SignUpRes.prototype.setToken = function(value) {
-  return jspb.Message.setField(this, 2, value);
+  return jspb.Message.setField(this, 3, value);
 };
 
 
@@ -691,7 +723,7 @@ proto.pb.SignUpRes.prototype.setToken = function(value) {
  * @return {!proto.pb.SignUpRes} returns this
  */
 proto.pb.SignUpRes.prototype.clearToken = function() {
-  return jspb.Message.setField(this, 2, undefined);
+  return jspb.Message.setField(this, 3, undefined);
 };
 
 
@@ -700,7 +732,7 @@ proto.pb.SignUpRes.prototype.clearToken = function() {
  * @return {boolean}
  */
 proto.pb.SignUpRes.prototype.hasToken = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -896,8 +928,9 @@ proto.pb.SignInRes.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.SignInRes.toObject = function(includeInstance, msg) {
   var f, obj = {
+    status: jspb.Message.getFieldWithDefault(msg, 1, 0),
     user: (f = msg.getUser()) && user_pb.User.toObject(includeInstance, f),
-    token: jspb.Message.getFieldWithDefault(msg, 2, "")
+    token: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -935,11 +968,15 @@ proto.pb.SignInRes.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
+      var value = /** @type {!proto.pb.STATUS} */ (reader.readEnum());
+      msg.setStatus(value);
+      break;
+    case 2:
       var value = new user_pb.User;
       reader.readMessage(value,user_pb.User.deserializeBinaryFromReader);
       msg.setUser(value);
       break;
-    case 2:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setToken(value);
       break;
@@ -972,18 +1009,25 @@ proto.pb.SignInRes.prototype.serializeBinary = function() {
  */
 proto.pb.SignInRes.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getStatus();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      1,
+      f
+    );
+  }
   f = message.getUser();
   if (f != null) {
     writer.writeMessage(
-      1,
+      2,
       f,
       user_pb.User.serializeBinaryToWriter
     );
   }
-  f = /** @type {string} */ (jspb.Message.getField(message, 2));
+  f = /** @type {string} */ (jspb.Message.getField(message, 3));
   if (f != null) {
     writer.writeString(
-      2,
+      3,
       f
     );
   }
@@ -991,12 +1035,30 @@ proto.pb.SignInRes.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional User user = 1;
+ * optional STATUS status = 1;
+ * @return {!proto.pb.STATUS}
+ */
+proto.pb.SignInRes.prototype.getStatus = function() {
+  return /** @type {!proto.pb.STATUS} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/**
+ * @param {!proto.pb.STATUS} value
+ * @return {!proto.pb.SignInRes} returns this
+ */
+proto.pb.SignInRes.prototype.setStatus = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional User user = 2;
  * @return {?proto.pb.User}
  */
 proto.pb.SignInRes.prototype.getUser = function() {
   return /** @type{?proto.pb.User} */ (
-    jspb.Message.getWrapperField(this, user_pb.User, 1));
+    jspb.Message.getWrapperField(this, user_pb.User, 2));
 };
 
 
@@ -1005,7 +1067,7 @@ proto.pb.SignInRes.prototype.getUser = function() {
  * @return {!proto.pb.SignInRes} returns this
 */
 proto.pb.SignInRes.prototype.setUser = function(value) {
-  return jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
@@ -1023,16 +1085,16 @@ proto.pb.SignInRes.prototype.clearUser = function() {
  * @return {boolean}
  */
 proto.pb.SignInRes.prototype.hasUser = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
- * optional string token = 2;
+ * optional string token = 3;
  * @return {string}
  */
 proto.pb.SignInRes.prototype.getToken = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
@@ -1041,7 +1103,7 @@ proto.pb.SignInRes.prototype.getToken = function() {
  * @return {!proto.pb.SignInRes} returns this
  */
 proto.pb.SignInRes.prototype.setToken = function(value) {
-  return jspb.Message.setField(this, 2, value);
+  return jspb.Message.setField(this, 3, value);
 };
 
 
@@ -1050,7 +1112,7 @@ proto.pb.SignInRes.prototype.setToken = function(value) {
  * @return {!proto.pb.SignInRes} returns this
  */
 proto.pb.SignInRes.prototype.clearToken = function() {
-  return jspb.Message.setField(this, 2, undefined);
+  return jspb.Message.setField(this, 3, undefined);
 };
 
 
@@ -1059,7 +1121,7 @@ proto.pb.SignInRes.prototype.clearToken = function() {
  * @return {boolean}
  */
 proto.pb.SignInRes.prototype.hasToken = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 3) != null;
 };
 
 

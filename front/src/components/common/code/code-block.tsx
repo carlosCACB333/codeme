@@ -1,180 +1,78 @@
-// Inspired by https://github.dev/modulz/stitches-site code demo
-import highlightLine from "@/libs/rehype-highlight-line";
-import highlightWord from "@/libs/rehype-highlight-word";
-import { clsx } from "@nextui-org/shared-utils";
-import { toHtml } from "hast-util-to-html";
-import rangeParser from "parse-numeric-range";
-import React from "react";
-import { refractor } from "refractor";
-import bash from "refractor/lang/bash";
-import css from "refractor/lang/css";
-import diff from "refractor/lang/diff";
-import js from "refractor/lang/javascript";
-import jsx from "refractor/lang/jsx";
-import { Pre } from "./pre";
-import { WindowActions } from "./window-actions";
+"use client";
+import { codeTheme } from "@/libs/prisma-theme";
+import { clsx, getUniqueID } from "@nextui-org/shared-utils";
+import { Highlight, Language } from "prism-react-renderer";
+import { forwardRef } from "react";
+import { CopyButton } from "./copy-button";
 
-refractor.register(js);
-refractor.register(jsx);
-refractor.register(bash);
-refractor.register(css);
-refractor.register(diff);
-
-type PreProps = Omit<React.ComponentProps<typeof Pre>, "css">;
-
-export type CodeBlockProps = PreProps & {
-  language: "js" | "jsx" | "bash" | "css" | "diff";
-  title?: string;
-  value?: string;
-  highlightLines?: string;
-  mode?: "static" | "typewriter";
-  showLineNumbers?: boolean;
-  showWindowIcons?: boolean;
+export interface CodeblockProps {
+  language: Language;
+  codeString: string;
+  showLines?: boolean;
   className?: string;
-};
-
-/**
- * recursively get all text nodes as an array for a given element
- */
-function getTextNodes(node: any): any[] {
-  let childTextNodes = [];
-
-  if (!node.hasChildNodes()) return [];
-
-  const childNodes = node.childNodes;
-
-  for (let i = 0; i < childNodes.length; i++) {
-    if (childNodes[i].nodeType == Node.TEXT_NODE) {
-      childTextNodes.push(childNodes[i]);
-    } else if (childNodes[i].nodeType == Node.ELEMENT_NODE) {
-      Array.prototype.push.apply(childTextNodes, getTextNodes(childNodes[i]));
-    }
-  }
-
-  return childTextNodes;
+  showCopy?: boolean;
 }
 
-/**
- * given a text node, wrap each character in the
- * given tag.
- */
-function wrapEachCharacter(textNode: any, tag: string, count: number) {
-  const text = textNode.nodeValue;
-  const parent = textNode.parentNode;
-
-  const characters = text.split("");
-
-  characters.forEach(function (character: any, letterIndex: any) {
-    const delay = (count + letterIndex) * 50;
-    var element = document.createElement(tag);
-    var characterNode = document.createTextNode(character);
-
-    element.appendChild(characterNode);
-    element.style.opacity = "0";
-    element.style.transition = `all ease 0ms ${delay}ms`;
-
-    parent.insertBefore(element, textNode);
-
-    // skip a couple of frames to trigger transition
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => (element.style.opacity = "1"))
-    );
-  });
-
-  parent.removeChild(textNode);
-}
-
-function CodeTypewriter({ value, className, css, ...props }: any) {
-  const wrapperRef = React.useRef(null);
-
-  React.useEffect(() => {
-    const wrapper = wrapperRef.current as any;
-
-    if (wrapper) {
-      var allTextNodes = getTextNodes(wrapper);
-
-      let count = 0;
-
-      allTextNodes?.forEach((textNode) => {
-        wrapEachCharacter(textNode, "span", count);
-        count = count + textNode.nodeValue.length;
-      });
-      wrapper.style.opacity = "1";
-    }
-
-    return () => (wrapper.innerHTML = value);
-  }, [value]);
-
-  return (
-    <Pre className={className} css={css} {...props}>
-      <code
-        dangerouslySetInnerHTML={{ __html: value }}
-        ref={wrapperRef}
-        className={className}
-        style={{ opacity: 0 }}
-      />
-    </Pre>
-  );
-}
-
-const CodeBlock = React.forwardRef<HTMLPreElement, CodeBlockProps>(
-  (_props, forwardedRef) => {
-    const {
-      language,
-      value,
-      title,
-      highlightLines = "0",
-      className = "",
-      mode,
-      showLineNumbers,
-      showWindowIcons,
-      ...props
-    } = _props;
-
-    let result: any = refractor.highlight(value || "", language);
-
-    result = highlightLine(result, rangeParser(highlightLines));
-
-    result = highlightWord(result);
-
-    // convert to html
-    result = toHtml(result);
-
-    // TODO reset theme
-    const classes = `language-${language}`;
-    const codeClasses = clsx(
-      "absolute w-full px-4 pb-6",
-      showWindowIcons ? "top-10" : "top-0"
-    );
-
-    if (mode === "typewriter") {
-      return (
-        <CodeTypewriter
-          className={classes}
-          css={css}
-          value={result}
-          {...props}
-        />
-      );
-    }
+export const Codeblock = forwardRef<HTMLPreElement, CodeblockProps>(
+  (
+    { codeString, language, showLines, showCopy, className: classNameProp },
+    ref
+  ) => {
+    const isMultiLine = codeString.split("\n").length > 2;
 
     return (
-      <Pre
-        ref={forwardedRef}
-        className={clsx("code-block", classes, className)}
-        data-line-numbers={showLineNumbers}
-        {...props}
-      >
-        {showWindowIcons && <WindowActions title={title} />}
-        <code
-          dangerouslySetInnerHTML={{ __html: result }}
-          className={clsx(classes, codeClasses)}
-        />
-      </Pre>
+      <Highlight code={codeString} language={language} theme={codeTheme}>
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <pre
+            data-language={language}
+            ref={ref}
+            className={clsx(
+              className,
+              classNameProp,
+              "relative flex w-full h-full max-w-full max-h-full",
+              {
+                "flex-col": isMultiLine,
+              }
+            )}
+            style={style}
+          >
+            {tokens.map((line, i) => {
+              const { key, ...lineProps } = getLineProps({ line, key: i });
+
+              return (
+                <div
+                  key={`${i}-${getUniqueID("line-wrapper")}`}
+                  {...lineProps}
+                  className={clsx(lineProps.className)}
+                >
+                  {showLines && (
+                    <span className="text-xs select-none mr-2 opacity-30">
+                      {i + 1}
+                    </span>
+                  )}
+                  {line.map((token, k) => {
+                    const { key, ...tokens } = getTokenProps({
+                      token,
+                      key: k,
+                    });
+                    return (
+                      <span
+                        key={`${k}-${getUniqueID("line")}`}
+                        {...tokens}
+                        className={className}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+
+            {showCopy && <CopyButton value={codeString} />}
+          </pre>
+        )}
+      </Highlight>
     );
   }
 );
 
-CodeBlock.displayName = "CodeBlock";
-
-export default CodeBlock;
+Codeblock.displayName = "CodeBlock";

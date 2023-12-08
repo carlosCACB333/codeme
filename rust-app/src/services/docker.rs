@@ -1,6 +1,6 @@
 use crate::pb;
+use bollard::container::LogOutput;
 use bollard::Docker;
-use bollard::{container::LogOutput, image::CreateImageOptions};
 use futures_util::TryStreamExt;
 use tonic::{Response, Status};
 
@@ -32,40 +32,51 @@ impl pb::docker_svc_server::DockerSvc for DockerSvc {
             return Err(Status::invalid_argument("Language not supported"));
         }
 
-        let docker = Docker::connect_with_socket_defaults().unwrap();
+        let docker = Docker::connect_with_socket_defaults();
+        if docker.is_err() {
+            return Err(Status::internal("Failed to connect to docker"));
+        }
 
-        let options = Some(CreateImageOptions {
-            from_image: PY_IMAGE,
-            ..Default::default()
-        });
+        let docker = docker.unwrap();
 
-        docker
-            .create_image(options, None, None)
-            .try_collect::<Vec<_>>()
-            .await
-            .unwrap();
-
-        let options = bollard::container::Config {
+        let container_cfg = bollard::container::Config {
             image: Some(PY_IMAGE),
             cmd: Some(vec!["python", "-c", &code]),
+            network_disabled: Some(true),
             tty: Some(true),
-            attach_stdin: Some(true),
-            attach_stdout: Some(true),
-            attach_stderr: Some(true),
-            open_stdin: Some(true),
+
+            host_config: Some(bollard::service::HostConfig {
+                auto_remove: Some(true),
+                cpu_shares: Some(100),
+                restart_policy: Some(bollard::service::RestartPolicy {
+                    maximum_retry_count: Some(0),
+                    name: Some(bollard::service::RestartPolicyNameEnum::NO),
+                }),
+                ..Default::default()
+            }),
             ..Default::default()
         };
 
-        let container_id = docker
-            .create_container::<&str, &str>(None, options)
-            .await
-            .unwrap()
-            .id;
+        let container = docker
+            .create_container::<&str, &str>(None, container_cfg)
+            .await;
 
-        docker
+        if let Err(e) = container {
+            return Err(Status::internal(format!(
+                "Failed to create container: {}",
+                e
+            )));
+        }
+
+        let container_id = container.unwrap().id;
+
+        if docker
             .start_container::<&str>(&container_id, None)
             .await
-            .unwrap();
+            .is_err()
+        {
+            return Err(Status::internal("Failed to start container"));
+        }
 
         let logs_option = bollard::container::LogsOptions {
             stdout: true,
@@ -73,23 +84,23 @@ impl pb::docker_svc_server::DockerSvc for DockerSvc {
             follow: true,
             ..Default::default()
         };
-        let output: Vec<LogOutput> = docker
+        let output = docker
             .logs::<&str>(&container_id, Some(logs_option))
             .try_collect::<Vec<_>>()
-            .await
-            .unwrap();
+            .await;
 
-        docker.stop_container(&container_id, None).await.unwrap();
-
-        docker.remove_container(&container_id, None).await.unwrap();
+        if let Err(e) = output {
+            return Err(Status::internal(format!("Failed to get logs: {}", e)));
+        }
 
         let (tx, rx) = tokio::sync::mpsc::channel(4);
 
         tokio::spawn(async move {
-            for line in output {
+            for line in output.unwrap() {
                 match line {
                     LogOutput::Console { message } => {
                         tx.send(Ok(pb::ExecuteCodeResp {
+                            status: pb::Status::Ok.into(),
                             output: String::from_utf8(message.to_vec()).unwrap(),
                         }))
                         .await

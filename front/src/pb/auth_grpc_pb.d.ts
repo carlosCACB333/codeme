@@ -7,6 +7,7 @@
 import * as grpc from "@grpc/grpc-js";
 import * as auth_pb from "./auth_pb";
 import * as user_pb from "./user_pb";
+import * as common_pb from "./common_pb";
 
 interface IAuthSvcService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     signUp: IAuthSvcService_ISignUp;
